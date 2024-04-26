@@ -1,12 +1,5 @@
 import os
 import shutil
-import zipfile
-
-def unzip_files(zip_paths, extract_path):
-    """Unzip files to the specified directory."""
-    for zip_path in zip_paths:
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            zip_ref.extractall(extract_path)
 
 def remove_json_files(directory):
     """Remove all JSON files in the directory."""
@@ -31,13 +24,10 @@ def merge_folders(source_dir, target_dir):
                 shutil.move(src_file, target_file)
 
 # Example usage:
-zip_files = ['path/to/your/first.zip', 'path/to/your/second.zip']  # List your zip file paths here
-extract_path = 'path/to/extracted'  # Path where zip files will be extracted
-target_directory = 'path/to/merged_images'  # All images will be moved here
+source_directory = 'path/to/extracted'  # Path where your photos are already extracted
+target_directory = 'path/to/merged_images'  # All images will be moved and merged here
 
-os.makedirs(extract_path, exist_ok=True)
 os.makedirs(target_directory, exist_ok=True)
 
-unzip_files(zip_files, extract_path)
-remove_json_files(extract_path)
-merge_folders(extract_path, target_directory)
+remove_json_files(source_directory)
+merge_folders(source_directory, target_directory)
