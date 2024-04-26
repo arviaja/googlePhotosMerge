@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 
 def remove_json_files(directory):
     """Remove all JSON files in the directory."""
@@ -23,11 +24,15 @@ def merge_folders(source_dir, target_dir):
                     copy_num += 1
                 shutil.move(src_file, target_file)
 
-# Example usage:
-source_directory = 'path/to/extracted'  # Path where your photos are already extracted
-target_directory = 'path/to/merged_images'  # All images will be moved and merged here
+def main():
+    # Default to current working directory if no path provided
+    source_directory = os.getcwd() if len(sys.argv) < 2 else sys.argv[1]
+    target_directory = os.path.join(source_directory, 'merged_images') if len(sys.argv) < 3 else sys.argv[2]
 
-os.makedirs(target_directory, exist_ok=True)
+    os.makedirs(target_directory, exist_ok=True)
 
-remove_json_files(source_directory)
-merge_folders(source_directory, target_directory)
+    remove_json_files(source_directory)
+    merge_folders(source_directory, target_directory)
+
+if __name__ == '__main__':
+    main()
